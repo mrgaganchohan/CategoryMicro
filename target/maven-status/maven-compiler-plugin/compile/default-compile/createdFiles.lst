@@ -1,6 +1,0 @@
-com/example/category/Entity/Category.class
-com/example/category/CategoryApplication.class
-com/example/category/Services/CategoryServiceImpl.class
-com/example/category/Repositories/CategoryRepo.class
-com/example/category/Controller/CategoryController.class
-com/example/category/Services/CategoryService.class
