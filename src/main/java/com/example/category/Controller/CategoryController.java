@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import com.example.category.Entity.Category;
 import com.example.category.Repositories.CategoryRepo;
 
-@Controller
+@CrossOrigin  //Access-control-allow-origin
+@RestController
 @RequestMapping(path="/category")
 public class CategoryController {
     @Autowired
     private CategoryRepo userRepository;
 
-    @GetMapping(path="/add/{name}") // Map ONLY GET Requests
-    public @ResponseBody String addNewUser (@PathVariable ("name") String name) {
+    @PostMapping(path="/add")
+    public @ResponseBody String addNewUser (Category category) {
         Category n = new Category();
-        n.setName(name);
+        n.setName(category.getName());
 
         userRepository.save(n);
         return "Saved";
@@ -27,7 +28,7 @@ public class CategoryController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path="/deleteall")
+    @GetMapping(path="/deleteAll")
     public @ResponseBody String delAllUsers() {
         userRepository.deleteAll();
         return "All Deleted";
