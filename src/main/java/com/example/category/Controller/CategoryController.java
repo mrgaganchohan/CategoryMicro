@@ -1,9 +1,10 @@
 package com.example.category.Controller;
 
+import com.example.category.Entity.DTO.CategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.category.Entity.Category;
 import com.example.category.Repositories.CategoryRepo;
 
@@ -17,7 +18,7 @@ public class CategoryController {
     private CategoryRepo categoryRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewUser (Category category) {
+    public @ResponseBody String addNewUser (CategoryDTO category) {
         Category n = new Category();
         n.setName(category.getName());
 
@@ -41,10 +42,9 @@ public class CategoryController {
 
     }
     @GetMapping(path = "/name/{text}")
-    public List<Category> searchName(@PathVariable final String text) {
-        return categoryRepository.findByName(text);
+    public ResponseEntity searchByName(@PathVariable final String text){
+    List<Category> searchName = categoryRepository.findByName(text);
+        return new ResponseEntity(searchName, HttpStatus.OK);
     }
-
-
 
 }
