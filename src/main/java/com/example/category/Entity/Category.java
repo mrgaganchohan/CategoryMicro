@@ -1,12 +1,9 @@
 
 package com.example.category.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -16,7 +13,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int catId;
-
+    @NotEmpty
     private String name;
 
     public void setCatId(int catId) {

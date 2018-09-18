@@ -18,16 +18,15 @@ public class CategoryController {
     private CategoryRepo categoryRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewUser (CategoryDTO category) {
-        Category n = new Category();
-        n.setName(category.getName());
-
-        categoryRepository.save(n);
-        return "Saved";
+    public @ResponseBody String addNewCategory(CategoryDTO category) {
+            Category n = new Category();
+            n.setName(category.getName());
+            categoryRepository.save(n);
+            return "Saved";
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Category> getAllUsers() {
+    public @ResponseBody Iterable<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
@@ -43,7 +42,7 @@ public class CategoryController {
     }
     @GetMapping(path = "/name/{text}")
     public ResponseEntity searchByName(@PathVariable final String text){
-    List<Category> searchName = categoryRepository.findByName(text);
+        List<Category> searchName = categoryRepository.findByName(text);
         return new ResponseEntity(searchName, HttpStatus.OK);
     }
 

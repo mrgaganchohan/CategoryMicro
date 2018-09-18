@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+public class On_CategoryControllerTest {
 
     public String emptyDB = "[]";
     public String jsonS = "[{\"catId\":1,\"name\":\"elec\"}]";
@@ -33,7 +33,7 @@ public class CategoryControllerTest {
 
     // Test empty database
     @Test
-    public void shouldReturnDefaultMessage() throws Exception {
+    public void checkEmptyDB() throws Exception {
 
         this.mockMvc.perform(get("http://localhost:8080/category/all")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString(emptyDB)));
