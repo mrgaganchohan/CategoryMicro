@@ -18,33 +18,35 @@ public class CategoryController {
     private CategoryRepo categoryRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewUser (CategoryDTO category) {
+    public ResponseEntity<Category>  addNewCategory (CategoryDTO category) {
         Category n = new Category();
         n.setName(category.getName());
-
         categoryRepository.save(n);
-        return "Saved";
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Category> getAllUsers() {
+    public @ResponseBody Iterable<Category> getAllCategory() {
         return categoryRepository.findAll();
     }
 
-    @GetMapping(path="/deleteAll")
-    public @ResponseBody String delAllUsers() {
+    @DeleteMapping(path="/deleteAll")
+    public ResponseEntity<Void>  delAllCategory() {
         categoryRepository.deleteAll();
-        return "All Deleted";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping(path="/delete/{name}")
-    public @ResponseBody void delUser(@PathVariable ("name") String name) {
+
+    @DeleteMapping(path="/delete/{name}")
+    public ResponseEntity<Void>  delCategory(@PathVariable ("name") final String name) {
         categoryRepository.deleteByName(name);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
-    @GetMapping(path = "/name/{text}")
+    @GetMapping(path = "/search/{text}")
     public ResponseEntity searchByName(@PathVariable final String text){
-    List<Category> searchName = categoryRepository.findByName(text);
-        return new ResponseEntity(searchName, HttpStatus.OK);
+        List<Category> searchName = categoryRepository.findByName(text);
+        return new ResponseEntity<>(searchName, HttpStatus.OK);
     }
 
 }
