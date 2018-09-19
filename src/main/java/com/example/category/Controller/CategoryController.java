@@ -22,6 +22,7 @@ public class CategoryController {
         Category n = new Category();
         n.setName(category.getName());
         categoryRepository.save(n);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
