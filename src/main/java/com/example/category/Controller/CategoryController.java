@@ -14,15 +14,17 @@ import java.util.List;
 @RestController
 @RequestMapping(path="/category")
 public class CategoryController {
+
+
     @Autowired
     private CategoryRepo categoryRepository;
 
-    @PostMapping(path="/add")
-    public ResponseEntity<Category>  addNewCategory (CategoryDTO category) {
+
+    @PostMapping(path = "/add", consumes = "application/json")
+    public ResponseEntity<Category> createCategory (@RequestBody CategoryDTO category){
         Category n = new Category();
         n.setName(category.getName());
         categoryRepository.save(n);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -30,6 +32,7 @@ public class CategoryController {
     public @ResponseBody Iterable<Category> getAllCategory() {
         return categoryRepository.findAll();
     }
+
 
     @DeleteMapping(path="/deleteAll")
     public ResponseEntity<Void>  delAllCategory() {
@@ -48,5 +51,7 @@ public class CategoryController {
         List<Category> searchName = categoryRepository.findByName(text);
         return new ResponseEntity<>(searchName, HttpStatus.OK);
     }
+
+
 
 }

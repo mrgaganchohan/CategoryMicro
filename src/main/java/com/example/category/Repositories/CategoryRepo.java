@@ -10,9 +10,12 @@ import java.util.List;
 
 public interface CategoryRepo extends CrudRepository<Category, Integer> {
     @Transactional
-    void deleteByName(String name);
+    List<Category> deleteByName(String name);
 
     @Query("SELECT e FROM Category e WHERE e.name LIKE %?1%")
     List<Category> findByName(String name);
+
+    @Query("SELECT e FROM Category e WHERE e.name = (:name)")
+    Category findByCatName(String name);
 
 }

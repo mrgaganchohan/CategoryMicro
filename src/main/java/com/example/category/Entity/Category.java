@@ -1,23 +1,30 @@
 
 package com.example.category.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="NAME"))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames="Category_Name"))
 public class Category {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "Category_ID")
     private int catId;
 
+    @NotNull
+    @Column(name = "Category_Name")
     private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(){
+
+    }
 
     public void setCatId(int catId) {
         this.catId = catId;
@@ -27,6 +34,7 @@ public class Category {
         this.name = name;
     }
 
+
     public int getCatId() {
         return catId;
     }
@@ -34,4 +42,5 @@ public class Category {
     public String getName() {
         return name;
     }
+
 }
