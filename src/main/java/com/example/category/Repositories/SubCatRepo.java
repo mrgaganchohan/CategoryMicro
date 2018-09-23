@@ -20,4 +20,7 @@ public interface SubCatRepo extends CrudRepository<SubCategory, Integer> {
 
     @Transactional
     List<SubCategory> deleteByName(String name);
+
+    @Query("SELECT e FROM SubCategory e WHERE e.name LIKE %?1%")
+    List<SubCategory> findByName(String name);
 }

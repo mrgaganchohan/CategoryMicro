@@ -68,6 +68,12 @@ public class SubCategoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path = "/Sub-Category/search/{text}")
+    public ResponseEntity searchByName(@PathVariable final String text){
+        List<SubCategory> searchName = subcatRepo.findByName(text);
+        return new ResponseEntity<>(searchName, HttpStatus.OK);
+    }
+
 
 
 }
