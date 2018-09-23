@@ -1,6 +1,8 @@
 package com.example.category.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +20,7 @@ public class SubCategory {
     private String name;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="Category_ID", referencedColumnName = "Category_ID")
     private Category category;
 
@@ -39,6 +41,7 @@ public class SubCategory {
         return name;
     }
 
+    @JsonIgnore
     public Category getCategory() {
         return category;
     }
