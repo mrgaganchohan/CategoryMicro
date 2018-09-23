@@ -30,8 +30,16 @@ public class SubCategoryController {
     @PostMapping(path = "/add-subcategory/{catName}", consumes = "application/json")
     public ResponseEntity<SubCategoryDTO> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName){
         Category n = categoryRepository.findByCatName(catName);
+        if (n == null){
+            return new ResponseEntity("Category = " + catName + ", Does Not Exist", HttpStatus.CONFLICT);
+        }
         SubCategory s = new SubCategory();
-        s.setName(subcategory.getName());
+        String subCatName = subcategory.getName();
+        s.setName(subCatName);
+        SubCategory exists = subcatRepo.findBySubCatName(subCatName);
+        if (exists != null){
+            return new ResponseEntity("Sub-Category = " + subCatName + ", Already Exists", HttpStatus.CONFLICT);
+        }
         s.setCategory(n);
         subcatRepo.save(s);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -42,6 +50,22 @@ public class SubCategoryController {
         Category cid = categoryRepository.findByCatName(catName);
         List<SubCategory> findAllSubCat = subcatRepo.findByCategory(cid);
         return new ResponseEntity<>(findAllSubCat, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path="/Sub-Category/delete/{name}")
+    public ResponseEntity<Void>  delSubCategory(@PathVariable ("name") final String name) {
+        SubCategory exists = subcatRepo.findBySubCatName(name);
+        if (exists==null){
+            return new ResponseEntity("Sub-Category = " + name + ", Does Not Exist", HttpStatus.CONFLICT);
+        }
+        subcatRepo.deleteByName(name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path="/Sub-Category/deleteAll")
+    public ResponseEntity<Void>  delAllSubCategory() {
+        subcatRepo.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

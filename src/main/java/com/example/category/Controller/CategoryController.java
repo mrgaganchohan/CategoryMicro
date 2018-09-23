@@ -23,6 +23,11 @@ public class CategoryController {
     @PostMapping(path = "/add", consumes = "application/json")
     public ResponseEntity<Category> createCategory (@RequestBody CategoryDTO category){
         Category n = new Category();
+        String catName = category.getName();
+        Category exists = categoryRepository.findByCatName(catName);
+        if (exists != null){
+            return new ResponseEntity("Category = " + catName + ", Already Exists", HttpStatus.CONFLICT);
+        }
         n.setName(category.getName());
         categoryRepository.save(n);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -42,6 +47,10 @@ public class CategoryController {
 
     @DeleteMapping(path="/delete/{name}")
     public ResponseEntity<Void>  delCategory(@PathVariable ("name") final String name) {
+        Category exists = categoryRepository.findByCatName(name);
+        if (exists==null){
+            return new ResponseEntity("Category = " + name + ", Does Not Exist", HttpStatus.CONFLICT);
+        }
         categoryRepository.deleteByName(name);
         return new ResponseEntity<>(HttpStatus.OK);
 
