@@ -18,4 +18,7 @@ public interface CategoryRepo extends CrudRepository<Category, Integer> {
     @Query("SELECT e FROM Category e WHERE e.name = (:name)")
     Category findByCatName(String name);
 
+    @Query("SELECT e FROM Category e WHERE e.catId = (:id)")
+    Category findByCatId(int id);
+
 }

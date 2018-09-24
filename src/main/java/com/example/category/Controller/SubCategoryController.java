@@ -26,19 +26,24 @@ public class SubCategoryController {
     @Autowired
     private CategoryRepo categoryRepository;
 
-//
+    private static final String CAT = "Category = ";
+    private static final String AE = ", Already Exists";
+    private static final String DNE = ", Does Not Exist";
+    private static final String SUB = "Sub-Category = ";
+
+
     @PostMapping(path = "/add-subcategory/{catName}", consumes = "application/json")
-    public ResponseEntity<SubCategoryDTO> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName){
+    public ResponseEntity<SubCategoryDTO> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName) {
         Category n = categoryRepository.findByCatName(catName);
-        if (n == null){
-            return new ResponseEntity("Category = " + catName + ", Does Not Exist", HttpStatus.CONFLICT);
+        if (n == null) {
+            return new ResponseEntity(CAT + catName + DNE, HttpStatus.CONFLICT);
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
-            return new ResponseEntity("Sub-Category = " + subCatName + ", Already Exists", HttpStatus.CONFLICT);
+            return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
         s.setCategory(n);
         subcatRepo.save(s);
@@ -56,7 +61,7 @@ public class SubCategoryController {
     public ResponseEntity<Void>  delSubCategory(@PathVariable ("name") final String name) {
         SubCategory exists = subcatRepo.findBySubCatName(name);
         if (exists==null){
-            return new ResponseEntity("Sub-Category = " + name + ", Does Not Exist", HttpStatus.CONFLICT);
+            return new ResponseEntity(SUB + name + DNE, HttpStatus.CONFLICT);
         }
         subcatRepo.deleteByName(name);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -72,6 +77,17 @@ public class SubCategoryController {
     public ResponseEntity searchByName(@PathVariable final String text){
         List<SubCategory> searchName = subcatRepo.findByName(text);
         return new ResponseEntity<>(searchName, HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/Sub-Category/update/{catName}")
+    public ResponseEntity updateSubCategory(@PathVariable ("catName") final String catName, @RequestBody SubCategoryDTO subcategory){
+        SubCategory subCat = subcatRepo.findBySubCatName(catName);
+        if (subCat==null){
+            return new ResponseEntity(SUB + catName + DNE, HttpStatus.CONFLICT);
+        }
+        subCat.setName(subcategory.getName());
+        subcatRepo.save(subCat);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

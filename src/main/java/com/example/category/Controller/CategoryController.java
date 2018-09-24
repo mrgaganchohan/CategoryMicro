@@ -19,14 +19,18 @@ public class CategoryController {
     @Autowired
     private CategoryRepo categoryRepository;
 
+    private static final String CAT = "Category = ";
+    private static final String AE = ", Already Exists";
+    private static final String DNE = ", Does Not Exist";
+
 
     @PostMapping(path = "/add", consumes = "application/json")
-    public ResponseEntity<Category> createCategory (@RequestBody CategoryDTO category){
+    public ResponseEntity<String> createCategory (@RequestBody CategoryDTO category){
         Category n = new Category();
         String catName = category.getName();
         Category exists = categoryRepository.findByCatName(catName);
         if (exists != null){
-            return new ResponseEntity("Category = " + catName + ", Already Exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(CAT + catName + AE, HttpStatus.CONFLICT);
         }
         n.setName(category.getName());
         categoryRepository.save(n);
@@ -46,10 +50,10 @@ public class CategoryController {
     }
 
     @DeleteMapping(path="/delete/{name}")
-    public ResponseEntity<Void>  delCategory(@PathVariable ("name") final String name) {
+    public ResponseEntity<String>  delCategory(@PathVariable ("name") final String name) {
         Category exists = categoryRepository.findByCatName(name);
         if (exists==null){
-            return new ResponseEntity("Category = " + name + ", Does Not Exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(CAT + name + DNE, HttpStatus.CONFLICT);
         }
         categoryRepository.deleteByName(name);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -61,6 +65,16 @@ public class CategoryController {
         return new ResponseEntity<>(searchName, HttpStatus.OK);
     }
 
+    @PutMapping(path = "/update/{catName}")
+    public ResponseEntity<String> updateCategory(@PathVariable ("catName") final String catName, @RequestBody CategoryDTO category){
+        Category c = categoryRepository.findByCatName(catName);
+        if (c==null){
+            return new ResponseEntity<>(CAT + catName + DNE, HttpStatus.CONFLICT);
+        }
+        c.setName(category.getName());
+        categoryRepository.save(c);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }
