@@ -20,8 +20,8 @@ public class SubCategory {
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="Category_ID", referencedColumnName = "Category_ID")
+    @ManyToOne
+    @JoinColumn(name="Category_ID", nullable =false)
     private Category category;
 
     public SubCategory(String name, Category category) {

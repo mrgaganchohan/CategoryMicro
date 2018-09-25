@@ -3,7 +3,7 @@ package com.example.category.Entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -19,8 +19,8 @@ public class Category {
     @Column(name = "Category_Name")
     private String name;
 
-    @OneToMany(mappedBy = "category", orphanRemoval = true,fetch = FetchType.EAGER)
-    private Set<SubCategory> subcategory;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<SubCategory> subcategory;
 
     public Category(String name) {
         this.name = name;
@@ -47,11 +47,11 @@ public class Category {
         return name;
     }
 
-    public Set<SubCategory> getSubcategory() {
+    public List<SubCategory> getSubcategory() {
         return subcategory;
     }
 
-    public void setSubcategory(Set<SubCategory> subcategory) {
+    public void setSubcategory(List<SubCategory> subcategory) {
         this.subcategory = subcategory;
     }
 }
