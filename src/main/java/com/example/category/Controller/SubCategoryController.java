@@ -33,17 +33,17 @@ public class SubCategoryController {
 
 
     @PostMapping(path = "/add-subcategory/{catName}", consumes = "application/json")
-    public ResponseEntity<String> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName) {
+    public ResponseEntity<SubCategoryDTO> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName) {
         Category n = categoryRepository.findByCatName(catName);
         if (n == null) {
-            return new ResponseEntity<>(CAT + catName + DNE, HttpStatus.CONFLICT);
+            return new ResponseEntity(CAT + catName + DNE, HttpStatus.CONFLICT);
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
-            return new ResponseEntity<>(SUB + subCatName + AE, HttpStatus.CONFLICT);
+            return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
         s.setCategory(n);
         subcatRepo.save(s);
@@ -56,6 +56,7 @@ public class SubCategoryController {
         List<SubCategory> findAllSubCat = subcatRepo.findByCategory(cid);
         return new ResponseEntity<>(findAllSubCat, HttpStatus.OK);
     }
+
 
     @DeleteMapping(path="/sub-category/delete/{name}")
     public ResponseEntity<String>  delSubCategory(@PathVariable ("name") final String name) {

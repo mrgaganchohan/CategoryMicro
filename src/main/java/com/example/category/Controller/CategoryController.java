@@ -1,6 +1,7 @@
 package com.example.category.Controller;
 
 import com.example.category.Entity.DTO.CategoryDTO;
+import com.example.category.Entity.SubCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.category.Entity.Category;
 import com.example.category.Repositories.CategoryRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin  //Access-control-allow-origin
@@ -43,6 +45,19 @@ public class CategoryController {
     }
 
 
+    @GetMapping(path = "/subid/{catName}")
+    public ResponseEntity<Category> getCategoryId(@PathVariable ("catName") final String catName) {
+        Category cat = categoryRepository.findByCatName(catName);
+        if (cat==null){
+            return new ResponseEntity(CAT + catName + DNE, HttpStatus.CONFLICT);
+        }
+        List<Integer> temp = new ArrayList<>();
+        for (int i =0; i< cat.getSubcategory().size(); i++){
+            temp.add(cat.getSubcategory().get(i).getSubId());
+        }
+        return new ResponseEntity(temp, HttpStatus.OK);
+    }
+
     @DeleteMapping(path="/deleteAll")
     public ResponseEntity<Void>  delAllCategory() {
         categoryRepository.deleteAll();
@@ -75,6 +90,4 @@ public class CategoryController {
         categoryRepository.save(c);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }
