@@ -20,17 +20,14 @@ public class SubCategory {
     private String name;
 
     @NotNull
+    @Column(name = "Sub_Category_Status")
+    private String status;
+
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name="Category_ID", nullable =false)
     private Category category;
-
-    public SubCategory(String name, Category category) {
-        this.name = name;
-        this.category = category;
-    }
-
-    public SubCategory(){
-    }
 
 
     public int getSubId() {
@@ -56,5 +53,13 @@ public class SubCategory {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

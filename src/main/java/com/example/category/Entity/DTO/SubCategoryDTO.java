@@ -8,6 +8,8 @@ public class SubCategoryDTO {
     @NotNull
     private String name;
     @NotNull
+    private String status;
+    @NotNull
     private CategoryDTO categoryDTO;
 
     public int getSubId() {
@@ -32,5 +34,13 @@ public class SubCategoryDTO {
 
     public void setCategoryDTO(CategoryDTO categoryDTO) {
         this.categoryDTO = categoryDTO;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

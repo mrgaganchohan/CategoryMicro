@@ -40,12 +40,14 @@ public class SubCategoryController {
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
+        String satName = subcategory.getStatus();
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
             return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
         s.setCategory(n);
+        s.setStatus(satName);
         subcatRepo.save(s);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -87,6 +89,7 @@ public class SubCategoryController {
             return new ResponseEntity<>(SUB + catName + DNE, HttpStatus.CONFLICT);
         }
         subCat.setName(subcategory.getName());
+        subCat.setStatus(subcategory.getStatus());
         subcatRepo.save(subCat);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -30,11 +30,13 @@ public class CategoryController {
     public ResponseEntity<String> createCategory (@RequestBody CategoryDTO category){
         Category n = new Category();
         String catName = category.getName();
+        String satName = category.getStatus();
         Category exists = categoryRepository.findByCatName(catName);
         if (exists != null){
             return new ResponseEntity<>(CAT + catName + AE, HttpStatus.CONFLICT);
         }
-        n.setName(category.getName());
+        n.setName(catName);
+        n.setStatus(satName);
         categoryRepository.save(n);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -87,6 +89,7 @@ public class CategoryController {
             return new ResponseEntity<>(CAT + catName + DNE, HttpStatus.CONFLICT);
         }
         c.setName(category.getName());
+        c.setStatus(category.getStatus());
         categoryRepository.save(c);
         return new ResponseEntity<>(HttpStatus.OK);
     }

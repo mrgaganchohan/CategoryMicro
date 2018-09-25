@@ -1,6 +1,8 @@
 
 package com.example.category.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -19,16 +21,14 @@ public class Category {
     @Column(name = "Category_Name")
     private String name;
 
+    @NotNull
+    @Column(name = "Category_Status")
+    private String status;
+
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<SubCategory> subcategory;
 
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Category(){
-
-    }
 
     public void setCatId(int catId) {
         this.catId = catId;
@@ -53,5 +53,13 @@ public class Category {
 
     public void setSubcategory(List<SubCategory> subcategory) {
         this.subcategory = subcategory;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

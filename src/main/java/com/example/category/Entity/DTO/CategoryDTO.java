@@ -8,6 +8,9 @@ public class CategoryDTO {
     @NotNull
     private String name;
 
+    @NotNull
+    private String status;
+
     public int getCatId() {
         return catId;
     }
@@ -23,4 +26,11 @@ public class CategoryDTO {
         return name;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
