@@ -57,8 +57,12 @@ public class SubCategoryController {
     @GetMapping(path = "/sub-category/{catName}")
     public ResponseEntity findAllSubCat(@PathVariable String catName){ //Electronics
         Category cid = categoryRepository.findByCatName(catName);
-        List<SubCategory> findAllSubCat = subcatRepo.findByCategory(cid);
-        return new ResponseEntity<>(findAllSubCat, HttpStatus.OK);
+        if (cid.getStatus().equals("Block")){
+            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+        }else {
+            List<SubCategory> findAllSubCat = subcatRepo.findByCategory(cid);
+            return new ResponseEntity<>(findAllSubCat, HttpStatus.OK);
+        }
     }
 
 
@@ -86,15 +90,20 @@ public class SubCategoryController {
 
     @GetMapping(path = "/sub-category/subId/{id}")
     public ResponseEntity<SubCategory> getSubCategoryId(@PathVariable ("id") final int id) {
-       List<SubCategory> cat = subcatRepo.findSubCategoriesByCategoryCatId(id);
-        if (cat==null){
-            return new ResponseEntity(CAT  + DNE, HttpStatus.CONFLICT);
+        Category catStat = categoryRepository.findByCatId(id);
+        if (catStat.getStatus().equals("Block")){
+            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+        }else {
+            List<SubCategory> cat = subcatRepo.findSubCategoriesByCategoryCatId(id);
+            if (cat == null) {
+                return new ResponseEntity(CAT + DNE, HttpStatus.CONFLICT);
+            }
+            List<Integer> temp = new ArrayList<>();
+            for (int i = 0; i < cat.size(); i++) {
+                temp.add(cat.get(i).getSubId());
+            }
+            return new ResponseEntity(temp, HttpStatus.OK);
         }
-        List<Integer> temp = new ArrayList<>();
-        for (int i =0; i< cat.size(); i++){
-            temp.add(cat.get(i).getSubId());
-        }
-        return new ResponseEntity(temp, HttpStatus.OK);
     }
 
 

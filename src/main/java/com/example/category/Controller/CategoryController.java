@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.example.category.Entity.Category;
 import com.example.category.Repositories.CategoryRepo;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin  //Access-control-allow-origin
@@ -34,9 +32,7 @@ public class CategoryController {
     public ResponseEntity<String> createCategory (@RequestBody CategoryDTO category){
         Category n = new Category();
         String catName = category.getName();
-
         String satName = category.getStatus();
-
         Category exists = categoryRepository.findByCatName(catName);
         if (exists != null){
             return new ResponseEntity<>(CAT + catName + AE, HttpStatus.CONFLICT);
@@ -65,8 +61,13 @@ public class CategoryController {
     @GetMapping(path = "/name/{catName}")
     public ResponseEntity<Category> getIDbyName(@PathVariable ("catName") final String catName){
         int cat = categoryRepository.findId(catName);
-        List<SubCategory> subCat = subcatRepo.findSubCategoriesByCategoryCatId(cat);
-        return new ResponseEntity(subCat,HttpStatus.OK);
+        Category catStat = categoryRepository.findByCatId(cat);
+        if (catStat.getStatus().equals("Block")){
+            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+        }else {
+            List<SubCategory> subCat = subcatRepo.findSubCategoriesByCategoryCatId(cat);
+            return new ResponseEntity(subCat, HttpStatus.OK);
+        }
     }
 
 
