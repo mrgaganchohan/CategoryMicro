@@ -41,7 +41,6 @@ public class SubCategoryController {
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
-
         String satName = subcategory.getStatus();
 
         s.setName(subCatName);
@@ -49,7 +48,6 @@ public class SubCategoryController {
         if (exists != null){
             return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
-        s.setStatus(subStat);
         s.setCategory(n);
         s.setStatus(satName);
         subcatRepo.save(s);
@@ -86,21 +84,18 @@ public class SubCategoryController {
         return new ResponseEntity<>(searchName, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/sub-category/{id}")
+    @GetMapping(path = "/sub-category/subId/{id}")
     public ResponseEntity<SubCategory> getSubCategoryId(@PathVariable ("id") final int id) {
        List<SubCategory> cat = subcatRepo.findSubCategoriesByCategoryCatId(id);
-//        if (cat==null){
-//            return new ResponseEntity(CAT  + DNE, HttpStatus.CONFLICT);
-//        }
-
-//        List<Integer> temp = new ArrayList<>();
-//        for (int i =0; i< cat.getSubcategory().size(); i++){
-//            temp.add(cat.getSubcategory().get(i).getSubId());
-//        }
-        return new ResponseEntity(cat, HttpStatus.OK);
+        if (cat==null){
+            return new ResponseEntity(CAT  + DNE, HttpStatus.CONFLICT);
+        }
+        List<Integer> temp = new ArrayList<>();
+        for (int i =0; i< cat.size(); i++){
+            temp.add(cat.get(i).getSubId());
+        }
+        return new ResponseEntity(temp, HttpStatus.OK);
     }
-
-    @GetMapping(path = "/sub-")
 
 
 

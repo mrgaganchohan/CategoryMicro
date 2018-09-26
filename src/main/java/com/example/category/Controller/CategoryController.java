@@ -42,9 +42,7 @@ public class CategoryController {
             return new ResponseEntity<>(CAT + catName + AE, HttpStatus.CONFLICT);
         }
         n.setName(catName);
-
         n.setStatus(satName);
-
         categoryRepository.save(n);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
