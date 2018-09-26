@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="Sub_Category_Name"))
+@Table
 public class SubCategory {
 
     @Id
@@ -16,7 +16,7 @@ public class SubCategory {
     private int subId;
 
     @NotNull
-    @Column(name = "Sub_Category_Name")
+    @Column(name = "Sub_Category_Name", unique = true)
     private String name;
 
     @NotNull

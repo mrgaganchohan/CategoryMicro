@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.example.category.Entity.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,12 +41,15 @@ public class SubCategoryController {
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
+
         String satName = subcategory.getStatus();
+
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
             return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
+        s.setStatus(subStat);
         s.setCategory(n);
         s.setStatus(satName);
         subcatRepo.save(s);
@@ -81,6 +85,24 @@ public class SubCategoryController {
         List<SubCategory> searchName = subcatRepo.findByName(text);
         return new ResponseEntity<>(searchName, HttpStatus.OK);
     }
+
+    @GetMapping(path = "/sub-category/{id}")
+    public ResponseEntity<SubCategory> getSubCategoryId(@PathVariable ("id") final int id) {
+       List<SubCategory> cat = subcatRepo.findSubCategoriesByCategoryCatId(id);
+//        if (cat==null){
+//            return new ResponseEntity(CAT  + DNE, HttpStatus.CONFLICT);
+//        }
+
+//        List<Integer> temp = new ArrayList<>();
+//        for (int i =0; i< cat.getSubcategory().size(); i++){
+//            temp.add(cat.getSubcategory().get(i).getSubId());
+//        }
+        return new ResponseEntity(cat, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/sub-")
+
+
 
     @PutMapping(path = "/sub-category/update/{catName}")
     public ResponseEntity<String> updateSubCategory(@PathVariable ("catName") final String catName, @RequestBody SubCategoryDTO subcategory){

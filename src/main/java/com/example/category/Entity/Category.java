@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="Category_Name"))
+@Table
 public class Category {
 
     @Id
@@ -18,7 +18,7 @@ public class Category {
     private int catId;
 
     @NotNull
-    @Column(name = "Category_Name")
+    @Column(name = "Category_Name", unique = true)
     private String name;
 
     @NotNull
@@ -47,9 +47,9 @@ public class Category {
         return name;
     }
 
-    public List<SubCategory> getSubcategory() {
-        return subcategory;
-    }
+//    public List<SubCategory> getSubcategory() {
+//        return subcategory;
+//    }
 
     public void setSubcategory(List<SubCategory> subcategory) {
         this.subcategory = subcategory;

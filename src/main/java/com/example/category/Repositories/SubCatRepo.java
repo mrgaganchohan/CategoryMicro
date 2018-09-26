@@ -23,4 +23,7 @@ public interface SubCatRepo extends CrudRepository<SubCategory, Integer> {
 
     @Query("SELECT e FROM SubCategory e WHERE e.name LIKE %?1%")
     List<SubCategory> findByName(String name);
+
+
+    List<SubCategory>findSubCategoriesByCategoryCatId(int id);
 }
