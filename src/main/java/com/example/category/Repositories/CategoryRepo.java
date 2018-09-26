@@ -1,5 +1,6 @@
 package com.example.category.Repositories;
 
+import com.example.category.Entity.DTO.CategoryDTO;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,15 +14,16 @@ public interface CategoryRepo extends CrudRepository<Category, Integer> {
     List<Category> deleteByName(String name);
 
     @Query("SELECT e FROM Category e WHERE e.name LIKE %?1%")
-    List<Category> findByName(String name);
+    List<Category> findBySName(String name);
 
     @Query("SELECT e FROM Category e WHERE e.name = (:name)")
     Category findByCatName(String name);
 
     @Query("SELECT e.catId FROM Category e WHERE e.name = (:name)")
-    Category findByNameId(String name);
+    int findId(String name);
 
     @Query("SELECT e FROM Category e WHERE e.catId = (:id)")
     Category findByCatId(int id);
+
 
 }

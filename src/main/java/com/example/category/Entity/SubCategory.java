@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames="Sub_Category_Name"))
+@Table
 public class SubCategory {
 
     @Id
@@ -16,7 +16,7 @@ public class SubCategory {
     private int subId;
 
     @NotNull
-    @Column(name = "Sub_Category_Name")
+    @Column(name = "Sub_Category_Name", unique = true)
     private String name;
 
     @NotNull
@@ -24,13 +24,9 @@ public class SubCategory {
     @JoinColumn(name="Category_ID", nullable =false)
     private Category category;
 
-    public SubCategory(String name, Category category) {
-        this.name = name;
-        this.category = category;
-    }
-
-    public SubCategory(){
-    }
+    @NotNull
+    @Column(name = "Category_Status")
+    private String status;
 
 
     public int getSubId() {
@@ -56,5 +52,13 @@ public class SubCategory {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
