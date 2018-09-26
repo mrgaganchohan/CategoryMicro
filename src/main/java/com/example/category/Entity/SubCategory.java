@@ -20,13 +20,14 @@ public class SubCategory {
     private String name;
 
     @NotNull
+    @Column(name = "Sub_Category_Status")
+    private String status;
+
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name="Category_ID", nullable =false)
     private Category category;
-
-    @NotNull
-    @Column(name = "Category_Status")
-    private String status;
 
 
     public int getSubId() {

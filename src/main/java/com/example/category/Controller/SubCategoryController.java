@@ -41,7 +41,9 @@ public class SubCategoryController {
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
-        String subStat = subcategory.getStatus();
+
+        String satName = subcategory.getStatus();
+
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
@@ -49,6 +51,7 @@ public class SubCategoryController {
         }
         s.setStatus(subStat);
         s.setCategory(n);
+        s.setStatus(satName);
         subcatRepo.save(s);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
