@@ -34,10 +34,10 @@ public class SubCategoryController {
 
 
     @PostMapping(path = "/add-subcategory/{catName}", consumes = "application/json")
-    public ResponseEntity<SubCategoryDTO> addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName) {
+    public ResponseEntity addSubCat(@RequestBody SubCategoryDTO subcategory, @PathVariable ("catName") final String catName) {
         Category n = categoryRepository.findByCatName(catName);
         if (n == null) {
-            return new ResponseEntity(CAT + catName + DNE, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(CAT + catName + DNE, HttpStatus.CONFLICT);
         }
         SubCategory s = new SubCategory();
         String subCatName = subcategory.getName();
@@ -46,7 +46,7 @@ public class SubCategoryController {
         s.setName(subCatName);
         SubCategory exists = subcatRepo.findBySubCatName(subCatName);
         if (exists != null){
-            return new ResponseEntity(SUB + subCatName + AE, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(SUB + subCatName + AE, HttpStatus.CONFLICT);
         }
         s.setCategory(n);
         s.setStatus(satName);
@@ -54,11 +54,12 @@ public class SubCategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
     @GetMapping(path = "/sub-category/{catName}")
     public ResponseEntity findAllSubCat(@PathVariable String catName){ //Electronics
         Category cid = categoryRepository.findByCatName(catName);
         if (cid.getStatus().equals("Block")){
-            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Category is Blocked ", HttpStatus.CONFLICT);
         }else {
             List<SubCategory> findAllSubCat = subcatRepo.findByCategory(cid);
             return new ResponseEntity<>(findAllSubCat, HttpStatus.OK);
@@ -89,27 +90,31 @@ public class SubCategoryController {
     }
 
     @GetMapping(path = "/sub-category/subId/{id}")
-    public ResponseEntity<SubCategory> getSubCategoryId(@PathVariable ("id") final int id) {
+    public ResponseEntity getSubCategoryId(@PathVariable ("id") final int id) {
         Category catStat = categoryRepository.findByCatId(id);
         if (catStat.getStatus().equals("Block")){
-            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Category is Blocked ", HttpStatus.CONFLICT);
         }else {
             List<SubCategory> cat = subcatRepo.findSubCategoriesByCategoryCatId(id);
             if (cat == null) {
-                return new ResponseEntity(CAT + DNE, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(CAT + DNE, HttpStatus.CONFLICT);
             }
             List<Integer> temp = new ArrayList<>();
             for (int i = 0; i < cat.size(); i++) {
                 temp.add(cat.get(i).getSubId());
             }
-            return new ResponseEntity(temp, HttpStatus.OK);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         }
     }
 
-
+    @GetMapping(path = "/sub-category/cat/{id}")
+    public ResponseEntity getCategoryId(@PathVariable ("id") final int id){
+        SubCategory subId = subcatRepo.findBySubId(id);
+        return new ResponseEntity<>(subId.getCategory().getName(),HttpStatus.OK);
+    }
 
     @PutMapping(path = "/sub-category/update/{catName}")
-    public ResponseEntity<String> updateSubCategory(@PathVariable ("catName") final String catName, @RequestBody SubCategoryDTO subcategory){
+    public ResponseEntity updateSubCategory(@PathVariable ("catName") final String catName, @RequestBody SubCategoryDTO subcategory){
         SubCategory subCat = subcatRepo.findBySubCatName(catName);
         if (subCat==null){
             return new ResponseEntity<>(SUB + catName + DNE, HttpStatus.CONFLICT);
