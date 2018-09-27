@@ -49,24 +49,24 @@ public class CategoryController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable ("id") final int id){
+    public ResponseEntity getCategory(@PathVariable ("id") final int id){
         Category cat = categoryRepository.findByCatId(id);
         if (cat.getStatus().equals("Block")){
-            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Category is Blocked ", HttpStatus.CONFLICT);
         }else {
-            return new ResponseEntity(cat, HttpStatus.OK);
+            return new ResponseEntity<>(cat, HttpStatus.OK);
         }
     }
 
     @GetMapping(path = "/name/{catName}")
-    public ResponseEntity<Category> getIDbyName(@PathVariable ("catName") final String catName){
+    public ResponseEntity getIDbyName(@PathVariable ("catName") final String catName){
         int cat = categoryRepository.findId(catName);
         Category catStat = categoryRepository.findByCatId(cat);
         if (catStat.getStatus().equals("Block")){
-            return new ResponseEntity("This Category is Blocked ", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Category is Blocked ", HttpStatus.CONFLICT);
         }else {
             List<SubCategory> subCat = subcatRepo.findSubCategoriesByCategoryCatId(cat);
-            return new ResponseEntity(subCat, HttpStatus.OK);
+            return new ResponseEntity<>(subCat, HttpStatus.OK);
         }
     }
 

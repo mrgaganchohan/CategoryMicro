@@ -1,6 +1,5 @@
 package com.example.category.Repositories;
 
-import com.example.category.Entity.DTO.CategoryDTO;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;

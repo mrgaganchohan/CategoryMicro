@@ -47,10 +47,6 @@ public class Category {
         return name;
     }
 
-//    public List<SubCategory> getSubcategory() {
-//        return subcategory;
-//    }
-
     public void setSubcategory(List<SubCategory> subcategory) {
         this.subcategory = subcategory;
     }

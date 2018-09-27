@@ -26,4 +26,7 @@ public interface SubCatRepo extends CrudRepository<SubCategory, Integer> {
 
 
     List<SubCategory>findSubCategoriesByCategoryCatId(int id);
+
+    @Query("SELECT e FROM SubCategory e WHERE e.subId = (:id)")
+    SubCategory findBySubId(int id);
 }
