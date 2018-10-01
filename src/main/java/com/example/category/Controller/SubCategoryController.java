@@ -54,6 +54,10 @@ public class SubCategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping(path = "/sub-category/all")
+    public @ResponseBody Iterable<SubCategory> getAllSubCategory() {
+        return subcatRepo.findAll();
+    }
 
     @GetMapping(path = "/sub-category/{catName}")
     public ResponseEntity findAllSubCat(@PathVariable String catName){ //Electronics
