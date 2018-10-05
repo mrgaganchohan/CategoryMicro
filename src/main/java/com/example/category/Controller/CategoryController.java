@@ -43,10 +43,24 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/allData")
     public @ResponseBody Iterable<Category> getAllCategory() {
         return categoryRepository.findAll();
     }
+
+    @GetMapping(path="/all")
+    public @ResponseBody Iterable<Category> AllCategory() {
+        List<Category> categoryList =  categoryRepository.findAll();
+
+        for(Category cat : categoryList)
+        {
+            List<SubCategory> subCat = cat.getSubcategories();
+            cat.getSubcategories().removeAll(subCat);
+        }
+        return categoryList;
+    }
+
+
 
     @GetMapping(path = "/{id}")
     public ResponseEntity getCategory(@PathVariable ("id") final int id){
