@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class Category {
     private String status;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
+   //@JsonIgnore
     private List<SubCategory> subcategory;
 
 
@@ -49,6 +50,10 @@ public class Category {
 
     public void setSubcategory(List<SubCategory> subcategory) {
         this.subcategory = subcategory;
+    }
+
+    public List<SubCategory> getSubcategories() {
+        return subcategory;
     }
 
     public String getStatus() {
