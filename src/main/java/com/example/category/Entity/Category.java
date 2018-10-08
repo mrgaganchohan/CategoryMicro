@@ -1,11 +1,9 @@
 
 package com.example.category.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,8 +24,7 @@ public class Category {
     @Column(name = "Category_Status")
     private String status;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-   //@JsonIgnore
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<SubCategory> subcategory;
 
 

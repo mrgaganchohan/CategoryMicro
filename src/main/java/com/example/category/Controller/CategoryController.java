@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Category> AllCategory() {
+    public @ResponseBody Iterable<Category> allCategory() {
         List<Category> categoryList =  categoryRepository.findAll();
 
         for(Category cat : categoryList)
@@ -91,14 +91,14 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path="/delete/{name}")
-    public ResponseEntity<String>  delCategory(@PathVariable ("name") final String name) {
-        Category exists = categoryRepository.findByCatName(name);
+    @DeleteMapping(path="/delete/{id}")
+    public ResponseEntity<String>  delCategory(@PathVariable ("id") final int id) {
+        Category exists = categoryRepository.findByCatId(id);
         if (exists==null){
-            return new ResponseEntity<>(CAT + name + DNE, HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Category" + DNE, HttpStatus.CONFLICT);
         }
-        categoryRepository.deleteByName(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+        categoryRepository.deleteByCatId(id);
+        return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
 
     }
     @GetMapping(path = "/search/{text}")

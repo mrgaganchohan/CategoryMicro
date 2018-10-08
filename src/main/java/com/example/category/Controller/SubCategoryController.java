@@ -71,14 +71,14 @@ public class SubCategoryController {
     }
 
 
-    @DeleteMapping(path="/sub-category/delete/{name}")
-    public ResponseEntity<String>  delSubCategory(@PathVariable ("name") final String name) {
-        SubCategory exists = subcatRepo.findBySubCatName(name);
+    @DeleteMapping(path="/sub-category/delete/{id}")
+    public ResponseEntity delSubCategory(@PathVariable int id) {
+        SubCategory exists = subcatRepo.findBySubId(id);
         if (exists==null){
-            return new ResponseEntity<>(SUB + name + DNE, HttpStatus.CONFLICT);
+            return new ResponseEntity<>("This Sub-Category" + DNE, HttpStatus.CONFLICT);
         }
-        subcatRepo.deleteByName(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+        subcatRepo.deleteSubCategoryBySubId(id);
+        return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
     }
 
     @DeleteMapping(path="/sub-category/deleteAll")
