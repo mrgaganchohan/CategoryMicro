@@ -3,14 +3,16 @@ package com.example.category.Repositories;
 
 import com.example.category.Entity.Category;
 import com.example.category.Entity.SubCategory;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
-public interface SubCatRepo extends CrudRepository<SubCategory, Integer> {
+@Repository
+public interface SubCatRepo extends JpaRepository<SubCategory, Integer> {
 
     @Query("SELECT e FROM SubCategory e WHERE e.category = (:category)")
     List<SubCategory> findByCategory(Category category);
@@ -19,12 +21,12 @@ public interface SubCatRepo extends CrudRepository<SubCategory, Integer> {
     SubCategory findBySubCatName(String name);
 
     @Transactional
-    List<SubCategory> deleteByName(String name);
+    List<SubCategory> deleteSubCategoryBySubId(int id);
 
     @Query("SELECT e FROM SubCategory e WHERE e.name LIKE %?1%")
     List<SubCategory> findByName(String name);
 
-
+    @Transactional
     List<SubCategory>findSubCategoriesByCategoryCatId(int id);
 
     @Query("SELECT e FROM SubCategory e WHERE e.subId = (:id)")
